@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>هیوا ابر - ورود</title>
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/favicon.ico" th:href="@{/favicon.png}">
+
+    <!-- Theme Color -->
+    <meta name="theme-color" content="#5867dd">
+
+    <!-- Plugin styles -->
+    <link rel="stylesheet" th:href="@{/vendors/bundle.css}" href="../static/vendors/bundle.css" type="text/css">
+
+    <!-- App styles -->
+    <link rel="stylesheet" th:href="@{/assets/css/app.css}" href="../static/assets/css/app.css" type="text/css">
+</head>
+
+<body class="login-img3-body">
+
+<div class="container">
+
+    <div>
+        <h1 style="color: #1d1c1a; font-style: italic;">به سیستم ابری هیوا خوش آمید</h1>
+        <h3 style="color: #1d1c1a;">You can manage your videos using the panel
+            or create connection access for your app and
+            manage your content with Api.</h3>
+        <a class="btn btn-primary btn-lg btn-block" style="margin-top: 30%" th:href="@{/authoritarian/login}">Login</a>
+        <a class="btn btn-primary btn-lg btn-block" style="" th:href="@{/authoritarian/signUp}">SignUp</a>
+        <a class="btn btn-primary btn-lg btn-block" style="" th:href="@{/panel}">Panel</a>
+    </div>
+</div>
+
+
+
+</body>
+<!-- Plugin scripts -->
+<script th:src="@{/vendors/bundle.js}" src="../static/vendors/bundle.js"></script>
+
+<!-- App scripts -->
+<script th:src="@{/assets/js/app.js}" src="../static/assets/js/app.js"></script>
+
+</html>
