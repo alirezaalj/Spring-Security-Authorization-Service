@@ -4,8 +4,8 @@ package ir.alirezaalijani.security.authorization.service.security.service.auth;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
+import ir.alirezaalijani.security.authorization.service.config.ApplicationConfigData;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
@@ -17,28 +17,21 @@ import java.util.concurrent.TimeUnit;
 public class LoginAttemptServiceImpl  implements LoginAttemptService{
 
     private final LoadingCache<String, Integer> attemptsCache;
-
-    private final int maxAttempt;
-    private final int expireDuration;
-    private final String expireUnit;
-    public LoginAttemptServiceImpl(@Value("${application.security.login.fall.max-attempt:10}") int maxAttempt,
-                                   @Value("${application.security.login.fall.expire-after.duration:1}") int expireDuration,
-                                   @Value("${application.security.login.fall.expire-after.unit:DAYS}") String expireUnit) {
-        this.maxAttempt = maxAttempt;
-        this.expireDuration=expireDuration;
-        this.expireUnit=expireUnit;
+    private final ApplicationConfigData configData;
+    public LoginAttemptServiceImpl(ApplicationConfigData configData) {
+        this.configData=configData;
         this.attemptsCache = buildCache();
     }
 
     private LoadingCache<String, Integer> buildCache(){
         TimeUnit timeUnit;
         try {
-            timeUnit =TimeUnit.of(ChronoUnit.valueOf(this.expireUnit));
+            timeUnit =TimeUnit.of(ChronoUnit.valueOf(this.configData.sec_login_attempt_expire_after_unit));
         }catch (Exception e){
             log.error("LoginAttemptService error : {}",e.getMessage());
             timeUnit=TimeUnit.DAYS;
         }
-        return CacheBuilder.newBuilder().expireAfterWrite(this.expireDuration, timeUnit).build(new CacheLoader<>() {
+        return CacheBuilder.newBuilder().expireAfterWrite(this.configData.sec_login_attempt_expire_after_duration, timeUnit).build(new CacheLoader<>() {
             @Override
             public Integer load(final String key) {
                 return 0;
@@ -64,7 +57,7 @@ public class LoginAttemptServiceImpl  implements LoginAttemptService{
 
     public boolean isBlocked(final String key) {
         try {
-            return attemptsCache.get(key) >= this.maxAttempt;
+            return attemptsCache.get(key) >= this.configData.sec_login_fall_max_attempt;
         } catch (final ExecutionException e) {
             return false;
         }

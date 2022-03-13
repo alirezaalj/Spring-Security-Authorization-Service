@@ -1,4 +1,4 @@
-package ir.alirezaalijani.security.authorization.service.security.mail.model;
+package ir.alirezaalijani.security.authorization.service.mail.model;
 
 import java.util.Map;
 

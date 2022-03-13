@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ForgetPasswordUsernameRequest {
+public class ForgetPasswordRequest {
     @NotNull(message = "Username is required")
     @NotEmpty(message = "Username is required")
     @Size(min = 5 ,max = 20)

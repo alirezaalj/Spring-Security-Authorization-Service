@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>Verify your email address</title>
+    <title th:text="${application_name}"></title>
     <style type="text/css" rel="stylesheet" media="all">
         /* Base ------------------------------ */
         *:not(br):not(tr):not(html) {
@@ -178,7 +178,7 @@
                 <!-- Logo -->
                 <tr>
                     <td class="email-masthead">
-                        <a class="email-masthead_name" th:text="${hostUrl}"></a>
+                        <a class="email-masthead_name" th:href="${application_host}" th:text="${application_name}" >host</a>
                     </td>
                 </tr>
                 <!-- Email Body -->
@@ -226,10 +226,10 @@
                         <table class="email-footer" align="center" width="570" cellpadding="0" cellspacing="0">
                             <tr>
                                 <td class="content-cell">
-                                    <p class="sub center">
-                                        Video Stream Application
-                                        <br>$$date$$
+                                    <p class="sub center" th:text="${application_name}">
+                                        Application name
                                     </p>
+                                    <p class="sub center" th:text="${date}"> Date</p>
                                 </td>
                             </tr>
                         </table>

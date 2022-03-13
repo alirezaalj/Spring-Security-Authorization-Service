@@ -1,5 +1,6 @@
 package ir.alirezaalijani.security.authorization.service.domain.request;
 
+import ir.alirezaalijani.security.authorization.service.domain.validators.PasswordValidate;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,18 +17,16 @@ import javax.validation.constraints.Size;
 public class PasswordUserTokenRequest {
     @NotEmpty
     @NotNull
-    @Size(min = 5,max = 30)
-    private String username;
-    @NotEmpty
-    @NotNull
     @Size(min = 5)
     private String token;
     @NotEmpty
     @NotNull
-    @Size(min = 8,max = 30)
+    @Size(min = 8,max = 20)
+    @PasswordValidate
     private String newPassword;
     @NotEmpty
     @NotNull
-    @Size(min = 8,max = 30)
+    @Size(min = 8,max = 20)
+    @PasswordValidate
     private String reNewPassword;
 }

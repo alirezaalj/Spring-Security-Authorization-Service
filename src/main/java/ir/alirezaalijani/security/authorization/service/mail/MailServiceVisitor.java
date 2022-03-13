@@ -1,8 +1,7 @@
-package ir.alirezaalijani.security.authorization.service.security.mail;
+package ir.alirezaalijani.security.authorization.service.mail;
 
 import ir.alirezaalijani.security.authorization.service.config.ApplicationConfigData;
-import ir.alirezaalijani.security.authorization.service.security.mail.model.*;
-import ir.alirezaalijani.security.authorization.service.service.MailService;
+import ir.alirezaalijani.security.authorization.service.mail.model.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;

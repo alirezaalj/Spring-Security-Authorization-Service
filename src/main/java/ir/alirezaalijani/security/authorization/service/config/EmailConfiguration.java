@@ -52,7 +52,7 @@ public class EmailConfiguration {
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", mailServerAuth);
         props.put("mail.smtp.starttls.enable", mailServerStartTls);
-        props.put("mail.debug", "true");
+//        props.put("mail.debug", "true");
         props.put("mail.smtp.connectiontimeout",connectiontimeout);
         props.put("mail.smtp.timeout",timeout);
         props.put("mail.smtp.writetimeout",writetimeout);

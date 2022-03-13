@@ -1,4 +1,4 @@
-package ir.alirezaalijani.security.authorization.service.security.mail;
+package ir.alirezaalijani.security.authorization.service.mail;
 
 public class MailSendException extends RuntimeException{
     public MailSendException() {

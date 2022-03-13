@@ -1,9 +1,8 @@
 package ir.alirezaalijani.security.authorization.service.web.error.resource;
 
 
-import ir.alirezaalijani.security.authorization.service.web.error.exception.*;
 import ir.alirezaalijani.security.authorization.service.web.error.apierror.ApiError;
-import ir.alirezaalijani.security.springauthorizationservice.web.error.exception.*;
+import ir.alirezaalijani.security.authorization.service.web.error.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.core.Ordered;

@@ -68,7 +68,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 // public
-                .antMatchers(SecurityBeanConfigs.publicPaths()).permitAll()
+                .antMatchers(SecurityBeanConfigs.publicPaths).permitAll()
+                .antMatchers(SecurityBeanConfigs.registerPaths).permitAll()
                 // secure
                 .antMatchers("/api/**").hasRole("USER")
                 .anyRequest().authenticated();

@@ -28,15 +28,15 @@ public class DataSourceInitializer implements AppStartupInitializer {
     public void init() {
         insertRoles();
         insertUser( User.builder()
-                .id(0).username("admin").password(passwordEncoder.encode("12345678"))
-                .email("alirezaalijani.ir@gmail.com")
+                .id(0).username("admin").password(passwordEncoder.encode("Admin123!@#"))
+                .email("user@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
                 .serviceAccess(true)
                 .build(), "ROLE_ADMIN", "ROLE_USER");
         insertUser( User.builder()
-                .id(0).username("user").password(passwordEncoder.encode("12345678"))
-                .email("alirezaalijani07@gmail.com")
+                .id(0).username("user").password(passwordEncoder.encode("User123!@#"))
+                .email("user@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
                 .serviceAccess(true)

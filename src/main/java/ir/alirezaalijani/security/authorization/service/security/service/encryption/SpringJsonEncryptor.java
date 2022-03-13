@@ -2,9 +2,9 @@ package ir.alirezaalijani.security.authorization.service.security.service.encryp
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ir.alirezaalijani.security.authorization.service.config.ApplicationConfigData;
 import lombok.extern.slf4j.Slf4j;
 import org.jasypt.exceptions.EncryptionOperationNotPossibleException;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.encrypt.Encryptors;
 import org.springframework.security.crypto.encrypt.TextEncryptor;
 import org.springframework.stereotype.Component;
@@ -18,11 +18,9 @@ public class SpringJsonEncryptor implements DataEncryptor{
     private final TextEncryptor encryptor;
     private final ObjectMapper objectMapper;
 
-    public SpringJsonEncryptor(@Value("${application.security.encryption.token.secret-key:defKey}") String encKey,
-                               @Value("${application.security.encryption.token.salt:5c0744940b5c369b}") String encSalt,
-                               ObjectMapper objectMapper) {
+    public SpringJsonEncryptor(ApplicationConfigData configData,ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
-       this.encryptor = Encryptors.text(encKey,encSalt);
+       this.encryptor = Encryptors.text(configData.sec_enc_token_key, configData.sec_enc_token_salt);
     }
 
     @Override

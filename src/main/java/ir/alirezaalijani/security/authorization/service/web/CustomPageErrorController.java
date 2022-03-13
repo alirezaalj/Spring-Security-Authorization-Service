@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
 @Controller
-public class CustomErrorController implements ErrorController {
+public class CustomPageErrorController implements ErrorController {
 
     @RequestMapping("/error")
     public String handleError(HttpServletRequest request,HttpServletResponse response) {

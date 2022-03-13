@@ -10,12 +10,12 @@ import javax.servlet.http.HttpServletRequest;
 
 @Slf4j
 @Component
-public class AuthenticationSuccessEventListener implements ApplicationListener<AuthenticationSuccessEvent> {
+public class AuthenticationSuccessListener implements ApplicationListener<AuthenticationSuccessEvent> {
     private final HttpServletRequest request;
     private final LoginAttemptService loginAttemptService;
 
-    public AuthenticationSuccessEventListener(HttpServletRequest request,
-                                              LoginAttemptService loginAttemptService) {
+    public AuthenticationSuccessListener(HttpServletRequest request,
+                                         LoginAttemptService loginAttemptService) {
         this.request = request;
         this.loginAttemptService = loginAttemptService;
     }

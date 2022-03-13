@@ -1,6 +1,6 @@
-package ir.alirezaalijani.security.authorization.service.security.mail.model;
+package ir.alirezaalijani.security.authorization.service.mail.model;
 
-import ir.alirezaalijani.security.authorization.service.security.mail.MailMessageVisitor;
+import ir.alirezaalijani.security.authorization.service.mail.MailMessageVisitor;
 
 public class SimpleTextMail extends BasicMailMessage implements MailMessage {
     public SimpleTextMail(String toMail, String fromMail, String subject, String message,String actionUrl) {

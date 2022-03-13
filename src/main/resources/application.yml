@@ -1,8 +1,23 @@
 server:
   port: 9000
 
-#logging:
-#  ir.alirezaalijani.security: DEBUG
+logging:
+  file:
+    path: ./Auth Service Application
+    name: Auth Service Application/logs/Auth-Service-Application.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+      clean-history-on-start: true
+
+spring:
+  main:
+    banner-mode: off
+  profiles:
+    active: postgres,mail,app
+  thymeleaf:
+    cache: false
 
 # all properties can be encrypted by jasypt
 #  download jasypt 1.9.3 dist.zip from
@@ -11,70 +26,3 @@ jasypt:
   encryptor:
     password: myPassword
     pool-size: 1
-
-google:
-  recaptcha:
-    key:
-      site: <site-key> # your google key-site
-      secret: <secter> # your google key-secret
-
-application:
-  info:
-    name: 'Alireza Alijani Auth Service'
-  security:
-    encryption:
-      token:
-        secret-key: 'tokenKey'
-        salt: '5c0744940b5c369b'
-      jwt:
-        secret-key: 'jwtKeyForEnc'
-        expiration-ms: 86400000 # one day
-    login:
-      theme: default
-      validator:
-        email-validate-url: http://localhost:9000/auth/validate/email/{token}
-      success:
-        redirect-url: http://localhost:4200/validate/{token}
-      fall:
-        max-attempt: 5
-        expire-after:
-          duration: 1
-          unit: DAYS
-
-spring:
-  jpa:
-    database: postgresql
-    database-platform: org.hibernate.dialect.PostgreSQL9Dialect
-    open-in-view: false
-    properties:
-      hibernate:
-        dialect: org.hibernate.dialect.PostgreSQL9Dialect
-    show-sql: false
-    generate-ddl: true
-    hibernate:
-      ddl-auto: update
-  datasource:
-    url: jdbc:postgresql://localhost:5432/oauth_server_db?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true
-    username: postgres
-    password: ENC(qjq10h70xEsIDGBYOOVJv8Fo2SuE/SYdt7HPwVT4Sa/51C75vww1I5Gusfh7HrC/) # postgres
-    driver-class-name: org.postgresql.Driver
-  sql:
-    init:
-      platform: postgres
-      mode: always
-  mail:
-    host: smtp.gmail.com
-    port: 587
-    username: <YOUR_EMAIL@gmail.com>
-    password: <YOUR_EMAIL_PSSWORD>
-    properties:
-      mail:
-        smtp:
-          auth: true
-          connectiontimeout: 5000
-          timeout: 5000
-          writetimeout: 5000
-          starttls:
-            enable: true
-  thymeleaf:
-    cache: false

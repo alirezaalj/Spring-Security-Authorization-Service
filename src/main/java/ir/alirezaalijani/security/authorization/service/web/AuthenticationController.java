@@ -1,13 +1,12 @@
 package ir.alirezaalijani.security.authorization.service.web;
 
+import ir.alirezaalijani.security.authorization.service.config.ApplicationConfigData;
 import ir.alirezaalijani.security.authorization.service.domain.request.LoginRequest;
 import ir.alirezaalijani.security.authorization.service.security.captcha.ICaptchaService;
-import ir.alirezaalijani.security.authorization.service.service.UserService;
 import ir.alirezaalijani.security.authorization.service.security.service.auth.AuthTokenService;
+import ir.alirezaalijani.security.authorization.service.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Slf4j
@@ -29,24 +27,17 @@ public class AuthenticationController {
     private final AuthTokenService tokenService;
     private final AuthenticationManager authenticationManager;
     private final ICaptchaService captchaService;
-    private final ApplicationEventPublisher eventPublisher;
-    private final String successRedirectUrl;
-    private final String loginTheme;
-
+    private final ApplicationConfigData applicationConfigData;
     public AuthenticationController(UserService userService,
-                                    @Qualifier("simpleJwtTokenGenerator") AuthTokenService tokenService,
+                                    @Qualifier("authTokenServiceBean") AuthTokenService tokenService,
                                     AuthenticationManager authenticationManager,
                                     @Qualifier("captchaService") ICaptchaService captchaService,
-                                    ApplicationEventPublisher eventPublisher,
-                                    @Value("${application.security.login.success.redirect-url}") String successRedirectUrl,
-                                    @Value("${application.security.login.theme:default}") String loginTheme) {
+                                    ApplicationConfigData configData) {
         this.userService = userService;
         this.tokenService = tokenService;
         this.authenticationManager = authenticationManager;
         this.captchaService = captchaService;
-        this.eventPublisher = eventPublisher;
-        this.successRedirectUrl=successRedirectUrl;
-        this.loginTheme = loginTheme;
+        this.applicationConfigData=configData;
     }
 
     @GetMapping("/login")
@@ -54,17 +45,17 @@ public class AuthenticationController {
                             @RequestParam(name = "message", defaultValue = "") String message,Model model) {
         model.addAttribute("login_user", new LoginRequest());
         model.addAttribute("error", error);
-        return loginPage();
+        model.addAttribute("message",message);
+        return ViewNames.LOGIN;
     }
 
     @PostMapping("/login")
     public String login(@ModelAttribute("login_user") @Valid LoginRequest loginRequest,
                         BindingResult bindingResult,
                         HttpServletRequest request,
-                        HttpServletResponse response,
                         Model model) {
         if (bindingResult.hasErrors()) {
-            return loginPage();
+            return ViewNames.LOGIN;
         }
         final String response_v2 = request.getParameter("g-recaptcha-response");
         if (response_v2 != null && captchaService.processResponse(response_v2)) {
@@ -75,17 +66,16 @@ public class AuthenticationController {
             if(tokenOp.isPresent()){
                 userService.updateUserLastLogin(authentication.getName());
                 model.addAttribute("username", loginRequest.getUsername());
-                var redirectUrl=this.successRedirectUrl.replace("{token}",tokenOp.get());
+                var redirectUrl=this.applicationConfigData.sec_login_redirect_url.replace("{token}",tokenOp.get());
                 return "redirect:".concat(redirectUrl);
             }
+        }else {
+            model.addAttribute("error","Recaptcha Validation Required!");
         }
-        return "redirect:/";
+        return ViewNames.LOGIN;
     }
 
-    private String loginPage(){
-        if(this.loginTheme.equalsIgnoreCase("default")){
-            return "login/login-default";
-        }
-        return "login/login-"+loginTheme;
+    private static class ViewNames{
+        private static final String LOGIN= "login/login";
     }
 }

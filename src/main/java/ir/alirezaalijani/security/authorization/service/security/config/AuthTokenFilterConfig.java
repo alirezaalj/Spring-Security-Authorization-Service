@@ -32,7 +32,7 @@ public class AuthTokenFilterConfig extends OncePerRequestFilter {
     private final AuthTokenService authTokenService;
     private final UserDetailsService userDetailsService;
 
-    public AuthTokenFilterConfig(@Qualifier("simpleJwtTokenGenerator") AuthTokenService authTokenService,
+    public AuthTokenFilterConfig(@Qualifier("authTokenServiceBean") AuthTokenService authTokenService,
                                  @Qualifier("custom") UserDetailsService userDetailsService) {
         this.authTokenService = authTokenService;
         this.userDetailsService = userDetailsService;
@@ -44,7 +44,7 @@ public class AuthTokenFilterConfig extends OncePerRequestFilter {
                                     FilterChain filterChain)
             throws ServletException, IOException {
         if (!SecurityBeanConfigs.isPublicPath(request)) {
-            log.info("Request is secure {}", request.getRequestURI());
+            log.debug("Request is secure {}", request.getRequestURI());
             try {
                 parseJwt(request)
                         .ifPresent(token -> {

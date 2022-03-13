@@ -1,6 +1,6 @@
-package ir.alirezaalijani.security.authorization.service.security.mail;
+package ir.alirezaalijani.security.authorization.service.mail;
 
-import ir.alirezaalijani.security.authorization.service.security.mail.model.MailMessage;
+import ir.alirezaalijani.security.authorization.service.mail.model.MailMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;

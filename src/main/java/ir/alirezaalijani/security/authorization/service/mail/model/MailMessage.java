@@ -1,6 +1,6 @@
-package ir.alirezaalijani.security.authorization.service.security.mail.model;
+package ir.alirezaalijani.security.authorization.service.mail.model;
 
-import ir.alirezaalijani.security.authorization.service.security.mail.MailMessageVisitor;
+import ir.alirezaalijani.security.authorization.service.mail.MailMessageVisitor;
 
 public interface MailMessage {
     void accept(MailMessageVisitor visitor);

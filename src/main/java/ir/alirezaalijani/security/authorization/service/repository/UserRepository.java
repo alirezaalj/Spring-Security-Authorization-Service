@@ -31,6 +31,8 @@ public interface UserRepository extends JpaRepository<User,Integer> {
     Boolean existsByUsernameOrEmail(String username,String email);
     Boolean existsByUsername(String username);
     Boolean existsByEmail(String email);
+    Boolean existsByEmailAndEmailVerification(String email,boolean verification);
+    Boolean existsByUsernameAndEmailVerificationAndEnable(String username,boolean emailV,boolean enable);
 
     void deleteByUsername(String username);
 }

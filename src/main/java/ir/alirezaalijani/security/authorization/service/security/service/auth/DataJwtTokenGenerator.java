@@ -9,11 +9,9 @@ import ir.alirezaalijani.security.authorization.service.security.model.CustomUse
 import ir.alirezaalijani.security.authorization.service.security.model.UserData;
 import ir.alirezaalijani.security.authorization.service.security.service.encryption.DataEncryptor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Component;
 
 import java.util.Date;
 import java.util.List;
@@ -22,14 +20,13 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
-@Component
 public class DataJwtTokenGenerator implements  AuthTokenService{
 
     private final JwtConfigData jwtConfigData;
     private final DataEncryptor jsonEncryptor;
     private static final String dataClimName="data";
     public DataJwtTokenGenerator(JwtConfigData jwtConfigData,
-                                 @Qualifier("jasyptJsonEncryptor") DataEncryptor jsonEncryptor) {
+                                 DataEncryptor jsonEncryptor) {
         this.jwtConfigData = jwtConfigData;
         this.jsonEncryptor = jsonEncryptor;
     }

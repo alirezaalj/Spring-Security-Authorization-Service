@@ -1,20 +1,12 @@
 package ir.alirezaalijani.security.authorization.service.service;
 
-import ir.alirezaalijani.security.authorization.service.domain.request.RegisterRequest;
-import ir.alirezaalijani.security.authorization.service.repository.RoleRepository;
-import ir.alirezaalijani.security.authorization.service.repository.TokenRepository;
+import ir.alirezaalijani.security.authorization.service.mail.MailSendEvent;
+import ir.alirezaalijani.security.authorization.service.mail.model.PasswordChangeMail;
 import ir.alirezaalijani.security.authorization.service.repository.UserRepository;
-import ir.alirezaalijani.security.authorization.service.repository.model.ApplicationToken;
-import ir.alirezaalijani.security.authorization.service.repository.model.Role;
 import ir.alirezaalijani.security.authorization.service.repository.model.User;
 import ir.alirezaalijani.security.authorization.service.security.config.AuthTokenFilterConfig;
-import ir.alirezaalijani.security.authorization.service.security.mail.MailSendEvent;
 import ir.alirezaalijani.security.authorization.service.security.service.encryption.DataEncryptor;
-import ir.alirezaalijani.security.authorization.service.security.token.SignUpStepTowToken;
-import ir.alirezaalijani.security.authorization.service.security.token.UserMailToken;
-import ir.alirezaalijani.security.authorization.service.web.error.exception.EntityNotFoundException;
-import ir.alirezaalijani.security.authorization.service.security.mail.model.PasswordChangeMail;
-import ir.alirezaalijani.security.authorization.service.security.mail.model.UserVerificationMail;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -24,39 +16,38 @@ import org.springframework.util.StringUtils;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Collections;
 import java.util.Date;
-import java.util.Set;
 
+@Slf4j
 @Service
-public class UserServiceImpl implements UserService{
-    public final static long DAY_IN_MS = 1000 * 60 * 60 * 24;
-    
+public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RoleRepository roleRepository;
     private final DataEncryptor simpleJsonEncryptor;
     private final ApplicationEventPublisher applicationEventPublisher;
-    private final TokenRepository tokenRepository;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
-                           RoleRepository roleRepository,
                            @Qualifier("springJsonEncryptor") DataEncryptor simpleJsonEncryptor,
-                           ApplicationEventPublisher applicationEventPublisher,
-                           TokenRepository tokenRepository) {
+                           ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.roleRepository = roleRepository;
         this.simpleJsonEncryptor = simpleJsonEncryptor;
         this.applicationEventPublisher = applicationEventPublisher;
-        this.tokenRepository = tokenRepository;
     }
 
     @Override
     public User findUserByUsername(String username) {
         return userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s not fond", username)));
+    }
+
+
+    @Override
+    public User findUserByEmail(String email) {
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s not fond", email)));
     }
 
     @Override
@@ -67,8 +58,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public String getAuthCookieValue(HttpServletRequest request) {
-        for (Cookie c:request.getCookies()){
-            if (c.getName().equals(AuthTokenFilterConfig.COOKIE_NAME)){
+        for (Cookie c : request.getCookies()) {
+            if (c.getName().equals(AuthTokenFilterConfig.COOKIE_NAME)) {
                 return c.getValue();
             }
         }
@@ -87,7 +78,7 @@ public class UserServiceImpl implements UserService{
     @Override
     public Integer findIdByUsername(String name) {
         return userRepository.findIdByUsername(name)
-                .orElseThrow(()-> new UsernameNotFoundException(String.format("User with id %s not fond",name)));
+                .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s not fond", name)));
     }
 
     @Override
@@ -101,36 +92,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public Boolean userExistByUsernameOrEmail(String username,String email) {
-        return userRepository.existsByUsernameOrEmail(username,email);
-    }
-
-    @Override
-    public User openSignUp(RegisterRequest request) {
-        Set<Role> roles= Collections.singleton(roleRepository.findByName("USER")
-                .orElseThrow(() -> new EntityNotFoundException(this.getClass(),"Role Not found")));
-        User user = User.builder()
-                .username(request.getUsername())
-                .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
-                .emailVerification(false)
-                .enable(true)
-                .serviceAccess(true)
-                .roles(roles).build();
-        User newUser = userRepository.save(user);
-        UserVerificationMail verificationMail = null;
-//                new UserVerificationMail(newUser.getEmail(),
-//                        "host",
-//                        simpleJsonEncryptor
-//                                .encryptDataToToken(new UserMailToken(UUID.randomUUID().toString(), newUser.getUsername()
-//                                                , newUser.getEmail()
-//                                                , new Date(System.currentTimeMillis() + (5 * DAY_IN_MS))
-//                                        )
-//                                )
-//                );
-        applicationEventPublisher.publishEvent(new MailSendEvent(verificationMail));
-        return newUser;
-
+    public Boolean userExistByUsernameOrEmail(String username, String email) {
+        return userRepository.existsByUsernameOrEmail(username, email);
     }
 
     @Override
@@ -157,49 +120,8 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public boolean emailVerification(String token) {
-        if (token != null) {
-            UserMailToken mailToken = simpleJsonEncryptor.decryptTokenToData(token, UserMailToken.class);
-            if (mailToken != null && tokenCanBeUsed(mailToken.getId()) && mailToken.getExpiration().compareTo(new Date()) > 0) {
-                User user = findUserByUsername(mailToken.getUsername());
-                if (user != null && !user.getEmailVerification()) {
-                    user.setEmailVerification(true);
-                    userRepository.save(user);
-                    ApplicationToken applicationToken = ApplicationToken.builder()
-                            .id(mailToken.getId())
-                            .type("MAIL_VERIFICATION")
-                            .useTime(new Date())
-                            .username(mailToken.getUsername())
-                            .expired(true)
-                            .tokenTowFactor(simpleJsonEncryptor.encryptDataToToken(token))
-                            .build();
-                    tokenRepository.save(applicationToken);
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
-
-    @Override
-    public boolean tokenCanBeUsed(String id) {
-        return !tokenRepository.existsByIdAndExpired(id, true);
-    }
-
-    @Override
     public boolean checkUserPasswordMach(User user, String lastPassword) {
         return passwordEncoder.matches(user.getPassword(), lastPassword);
-    }
-
-    @Override
-    public RegisterRequest validateStepTowSignUp(String token, Integer smsCode) {
-        if (token != null) {
-            SignUpStepTowToken signUpStepTowToken = simpleJsonEncryptor.decryptTokenToData(token, SignUpStepTowToken.class);
-            if (signUpStepTowToken != null && signUpStepTowToken.getExpiration().compareTo(new Date()) > 0 && smsCode.equals(signUpStepTowToken.getSmsCod())) {
-                return signUpStepTowToken.getRequest();
-            }
-        }
-        return null;
     }
 
     @Override
@@ -216,7 +138,7 @@ public class UserServiceImpl implements UserService{
 //                                )
 //                );
 
-        applicationEventPublisher.publishEvent(new MailSendEvent( userPasswordChangeMail));
+        applicationEventPublisher.publishEvent(new MailSendEvent(userPasswordChangeMail));
         return true;
     }
 
