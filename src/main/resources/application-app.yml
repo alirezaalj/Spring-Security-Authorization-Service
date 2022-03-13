@@ -1,0 +1,38 @@
+application:
+  info:
+    name: 'Alireza Alijani Auth Service'
+    host: security.alirezaalijani.ir
+    contact-email: contact@alirezaalijani.ir
+  security:
+    encryption:
+      token:
+        secret-key: 'tokenKey'
+        salt: '5c0744940b5c369b'
+      jwt:
+        type: simple # simple or data
+        secret-key: 'jwtKeyForEnc'
+        expiration-ms: 86400000 # one day
+    login:
+      theme: default
+      validator:
+        validate-url: http://localhost:9000/verification/{path}/{token}
+      success:
+        redirect-url: http://localhost:4200/validate/{token}
+      fall:
+        max-attempt: 5
+        expire-after:
+          duration: 1
+          unit: DAYS
+
+google:
+  recaptcha:
+    key:
+      site: 6Lf6I_gbAAAAAGd4LniL4OFKq15fz1JjYYTyDb-D # your google key-site
+      secret: 6Lf6I_gbAAAAABFPyh08YdWjYOqcNpbsExskU-bY # your google key-secret
+
+retry-config:
+  initial-interval-ms: 1000
+  max-interval-ms: 10000
+  multiplier: 2.0
+  maxAttempts: 3
+  sleep-time-ms: 2000
