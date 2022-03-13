@@ -3,6 +3,9 @@ package ir.alirezaalijani.security.authorization.service.config;
 import ir.alirezaalijani.security.authorization.service.mail.MailSendException;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.event.ApplicationEventMulticaster;
+import org.springframework.context.event.SimpleApplicationEventMulticaster;
+import org.springframework.core.task.SimpleAsyncTaskExecutor;
 import org.springframework.retry.RetryOperations;
 import org.springframework.retry.backoff.ExponentialBackOffPolicy;
 import org.springframework.retry.policy.SimpleRetryPolicy;
@@ -20,6 +23,15 @@ public class CommonConfig {
 
     public CommonConfig(RetryConfigData retryConfigData) {
         this.retryConfigData = retryConfigData;
+    }
+
+    @Bean(name = "applicationEventMulticaster")
+    public ApplicationEventMulticaster simpleApplicationEventMulticaster() {
+        SimpleApplicationEventMulticaster eventMulticaster =
+                new SimpleApplicationEventMulticaster();
+
+        eventMulticaster.setTaskExecutor(new SimpleAsyncTaskExecutor());
+        return eventMulticaster;
     }
 
     @Bean
