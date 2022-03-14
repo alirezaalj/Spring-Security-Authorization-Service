@@ -1,3 +1,10 @@
+postgres:
+  host: localhost
+  db: oauth_server_db
+  user: postgres
+  pass: postgres
+  port: 5432
+
 spring:
   jpa:
     database: postgresql
@@ -11,9 +18,9 @@ spring:
     hibernate:
       ddl-auto: update
   datasource:
-    url: jdbc:postgresql://localhost:5432/oauth_server_db?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true
-    username: postgres
-    password: ENC(qjq10h70xEsIDGBYOOVJv8Fo2SuE/SYdt7HPwVT4Sa/51C75vww1I5Gusfh7HrC/) # postgres
+    url: jdbc:postgresql://${postgres.host}:${postgres.port}/${postgres.db}?currentSchema=public&binaryTransfer=true&reWriteBatchedInserts=true
+    username: ${postgres.user}
+    password: ${postgres.pass}
     driver-class-name: org.postgresql.Driver
   sql:
     init:

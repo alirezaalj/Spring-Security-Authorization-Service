@@ -29,7 +29,7 @@ public class DataSourceInitializer implements AppStartupInitializer {
         insertRoles();
         insertUser( User.builder()
                 .id(0).username("admin").password(passwordEncoder.encode("Admin123!@#"))
-                .email("user@alirezaalijani.ir")
+                .email("admin@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
                 .serviceAccess(true)

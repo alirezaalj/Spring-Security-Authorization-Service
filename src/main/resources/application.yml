@@ -3,8 +3,8 @@ server:
 
 logging:
   file:
-    path: ./Auth Service Application
-    name: Auth Service Application/logs/Auth-Service-Application.log
+    path: ./AuthServiceApplication
+    name: AuthServiceApplication/logs/Auth-Service-Application.log
   logback:
     rollingpolicy:
       max-file-size: 10MB
