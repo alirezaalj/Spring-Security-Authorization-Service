@@ -5,7 +5,7 @@ target/
 !**/src/test/**/target/
 auth-app-env.me
 application-mail.yml
-
+application-mail.*
 ### STS ###
 .apt_generated
 .classpath
