@@ -49,32 +49,32 @@ cd Spring-Security-Authorization-Service
 3. Chanege **auth-app-env** file configs
    change email configs in here is use gmail
  ```
-            SPRING_MAIL_HOST=smtp.gmail.com
-            SPRING_MAIL_HOST_PORT=587
-            SPRING_MAIL_USERNAME=<your_gmail_account>
-            SPRING_MAIL_PASSWORD=<account_password>
+        SPRING_MAIL_HOST=smtp.gmail.com
+        SPRING_MAIL_HOST_PORT=587
+        SPRING_MAIL_USERNAME=<your_gmail_account>
+        SPRING_MAIL_PASSWORD=<account_password>
 ```
 ###### change other configs if you need
 > the **recaptcha keys** in config file are for the ** localhost**  if you are running on localhost there is no need to change them.
 ```
         ## application name
-		APPLICATION_INFO_NAME=Alireza Alijani Auth Service
-		## application domian
+	APPLICATION_INFO_NAME=Alireza Alijani Auth Service
+	## application domian
         APPLICATION_INFO_HOST=security.alirezaalijani.ir
-		## contact email
+	## contact email
         APPLICATION_INFO_CONTACT_EMAIL=contact@alirezaalijani.ir
-		## encrypting keys
+	## encrypting keys
         APPLICATION_SECURITY_ENCRYPTION_TOKEN_SECRET_KEY=tokenKey
         APPLICATION_SECURITY_ENCRYPTION_TOKEN_SALT=5c0744940b5c369b
-		## jwt configs
+	## jwt configs
         APPLICATION_SECURITY_ENCRYPTION_JWT_TYPE=simple
         APPLICATION_SECURITY_ENCRYPTION_JWT_EXPIRATION_MS=86400000
         APPLICATION_SECURITY_ENCRYPTION_JWT_SECRET_KEY=jwtKeyForEnc
-		## token validation url - only domain can be changed
+	## token validation url - only domain can be changed
         APPLICATION_SECURITY_LOGIN_VALIDATOR_VALIDATE_URL=http://localhost:9000/verification/{path}/{token}
-		## some client application redirect after login with token 
+	## some client application redirect after login with token 
         APPLICATION_SECURITY_LOGIN_SUCCESS_REDIRECT_URL=http://localhost:4200/validate/{token}
-		## google recaptch configs
+	## google recaptch configs
         GOOGLE_RECAPTCHA_KEY_SITE=<your domain recaptcha site>
         GOOGLE_RECAPTCHA_KEY_SECRET=<your domain recaptcha key>
 ```
@@ -90,6 +90,8 @@ mvn clean install -DskipTests
 [![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
 ##### login  http://loaclhost:9000/auth/login
 [![login](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")
+
+------------
 
 #### Run in devmode
 ###### Project dependencies
