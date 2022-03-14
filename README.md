@@ -112,13 +112,14 @@ mvn clean install -DskipTests
 docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
 add your email info to **application-mail.yml** file and host info
+```
 spring:
-mail:
-host: <emai_host> #if useing gmail smtp.gmail.com
-port: 587
-username: <your_emai_account>
-password: <your_email_accunt_password>
-
+  mail:
+    host: <emai_host> #if useing gmail smtp.gmail.com
+    port: 587
+    username: <your_emai_account>
+    password: <your_email_accunt_password>
+```
 #### Run
 1. go to project folder
 2. start by [spring-boot-maven-plugin](https://docs.spring.io/spring-boot/docs/current/maven-plugin/reference/htmlsingle/ "spring-boot-maven-plugin")
