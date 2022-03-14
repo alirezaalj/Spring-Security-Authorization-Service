@@ -1,69 +1,119 @@
-# Spring-Security-Authorization-Service
-## Spring boot jwt security and email verification
-This program is written using the spring boot framework and using spring security,which is used to create a database to store user information and send emails to complete user authentication, and how to authenticate users using a token that allows this project to You can easily run using the Docker service.
-#### Details:
-- Use gmail smtp
-- Use jwt for authentication
-- Having rolls for users
-- Creating a professional and encrypted link for the types of services that we have used here to create an email authentication link
-- Create an email template
-- Send asymmetric emails
+# Spring Security Authorization Service
+### Description
+This program is designed using Java and Spring Boot, which can be used to register and authenticate users in an advanced way. This service can be used as an authentication server
+#### my website: [https://alirezaalijani.ir](https://alirezaalijani.ir "https://alirezaalijani.ir")
+------------
 
-my website: [https://alirezaalijani.ir](https://alirezaalijani.ir "https://alirezaalijani.ir")
-##### Goals
+#### Details:
+- Authentication and Authorization **froms**
+- Use **fail attempts** to block access
+- Use **java email ** client to send emails
+- Different accesses for users
+- Creating a professional and **encrypted link** to verify user acctions (**email verification**)
+- Create an **html email template** and send **asymmetric** emails
+- Use **Google recaptcha**
+- **Jwt** for api authentication
 - ٍSecuring webservice
-- Using spring data and mysql for save users data
-- Java AES encryption for encrypting Objects and decrypting them
-- Using jwt for api authentication
-- Send email templates to registered users for authentication
+- Dockerized application with **docker-compose**
+
+##### Goals
+- Authentication & Authorization server
+- Account validation
+- User management
+- Distributed service
 
 # How to use
 
-#### The first method method that you can user for running project
+#### Using maven and docker
 ###### Project dependencies
 - Docker : [Get Started](https://www.docker.com/ "Get Started")
 - docker-compose : [Overview of Docker Compose](https://docs.docker.com/compose/ "Overview of Docker Compose")
-
-#### Run
-1. go to project folder open command line in there
-2. start by this commands
-```shell
-mvn spring-boot:run
-```
-
-#### The second method that you can user for running project
-###### Project dependencies
-
 - maven  : [How to use or Download](https://maven.apache.org/ "How to use or Download")
-- java 8 or higher
-- gamil account or other smtp account
+- java 17
+- gamil account or other smtp email account
   if using gmail first do fallow this two step
   1- [Two Step Verification should be turned off.](https://support.google.com/accounts/answer/1064203?hl=en "Two Step Verification should be turned off.")
   2- [Allow Less Secure App(should be turned on).](https://myaccount.google.com/lesssecureapps "Allow Less Secure App(should be turned on).")
-- mysql : *i suggest using docker*
-  -- dockerhub : [https://hub.docker.com/_/mysql](https://hub.docker.com/_/mysql "https://hub.docker.com/_/mysql")
-  -- create new database whit name : **service_user_security**
-  -- using this commands for *pull *and use **mysql** whit docker
 
-- run and pull mysql whit docker and config root password to **password**  on port **3306**
+#### Config
+1. Download or clone project
 ```shell
-docker run --name=mysql-server  -e MYSQL_ROOT_PASSWORD=password  -p 3306:3306  -d mysql/mysql-server:latest
-``` 
-connect to mysql cli
+git clone https://github.com/alirezaalj/Spring-Security-Authorization-Service.git
+or 
+wget https://github.com/alirezaalj/Spring-Security-Authorization-Service/archive/refs/heads/master.zip
+```
+2. go to project folder open command line in there
 ```shell
-docker exec -it  mysql-server mysql -uroot -ppassword
+cd Spring-Security-Authorization-Service
 ```
-create new database
-```sql
-CREATE DATABASE service_user_security;
+3. Chanege **auth-app-env** file configs
+   change email configs in here is use gmail
+   SPRING_MAIL_HOST=smtp.gmail.com
+   SPRING_MAIL_HOST_PORT=587
+   SPRING_MAIL_USERNAME=<your_gmail_account>
+   SPRING_MAIL_PASSWORD=<account_password>
+###### change other configs if you need
+> the **recaptcha keys** in config file are for the ** localhost**  if you are running on localhost there is no need to change them.
+
+        ## application name
+		APPLICATION_INFO_NAME=Alireza Alijani Auth Service
+		## application domian
+        APPLICATION_INFO_HOST=security.alirezaalijani.ir
+		## contact email
+        APPLICATION_INFO_CONTACT_EMAIL=contact@alirezaalijani.ir
+		## encrypting keys
+        APPLICATION_SECURITY_ENCRYPTION_TOKEN_SECRET_KEY=tokenKey
+        APPLICATION_SECURITY_ENCRYPTION_TOKEN_SALT=5c0744940b5c369b
+		## jwt configs
+        APPLICATION_SECURITY_ENCRYPTION_JWT_TYPE=simple
+        APPLICATION_SECURITY_ENCRYPTION_JWT_EXPIRATION_MS=86400000
+        APPLICATION_SECURITY_ENCRYPTION_JWT_SECRET_KEY=jwtKeyForEnc
+		## token validation url - only domain can be changed
+        APPLICATION_SECURITY_LOGIN_VALIDATOR_VALIDATE_URL=http://localhost:9000/verification/{path}/{token}
+		## some client application redirect after login with token 
+        APPLICATION_SECURITY_LOGIN_SUCCESS_REDIRECT_URL=http://localhost:4200/validate/{token}
+		## google recaptch configs
+        GOOGLE_RECAPTCHA_KEY_SITE=<your domain recaptcha site>
+        GOOGLE_RECAPTCHA_KEY_SECRET=<your domain recaptcha key>
+
+4. In application folder build **jar** file and **dokcer image**
+```shell
+mvn clean install -DskipTests
 ```
-add your email info to **application.properties** file and host info
+5. Run dokcer compose
+```shell
+ docker-compose --env-file auth-app-env up
 ```
-spring.mail.username=<YOURGAMIL@gmail.com>
-spring.mail.password=<YOURGAMIL_PASSWPRD>
-## if you run on domain like `alirezaaliani.ir`
-service.emailDomainVerify=http://localhost:8080/api/auth/email/
+##### application is ready on http://loaclhost:9000
+[![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
+##### login  http://loaclhost:9000/auth/login
+[![login](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")
+
+#### Run in devmode
+###### Project dependencies
+
+- maven  : [How to use or Download](https://maven.apache.org/ "How to use or Download")
+- java 17
+- gamil account or other smtp email account
+  if using gmail first do fallow this two step
+  1- [Two Step Verification should be turned off.](https://support.google.com/accounts/answer/1064203?hl=en "Two Step Verification should be turned off.")
+  2- [Allow Less Secure App(should be turned on).](https://myaccount.google.com/lesssecureapps "Allow Less Secure App(should be turned on).")
+- postgres : *i suggest using docker*
+  -- dockerhub : [https://hub.docker.com/_/postgres](https://hub.docker.com/_/postgres "https://hub.docker.com/_/postgres")
+  -- create new database whit name : **oauth_server_db**
+  -- using this commands for *pull *and use **postgres** whit docker
+
+- run and pull postgrsql whit docker and config password to **postgres**  on port **5432**
+```shell
+docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
+add your email info to **application-mail.yml** file and host info
+spring:
+mail:
+host: <emai_host> #if useing gmail smtp.gmail.com
+port: 587
+username: <your_emai_account>
+password: <your_email_accunt_password>
 
 #### Run
 1. go to project folder
@@ -72,34 +122,48 @@ service.emailDomainVerify=http://localhost:8080/api/auth/email/
 ```shell
 mvn spring-boot:run
 ```
-3. project start on port 8080 and you can see the console for crud actions4. use this
+3. project start on port 9000 and you can see the console - logging
 4. command to create jar file
-
 ```shell
  mvn clean install
 ```
 5. end
 
-#### service api using
-- send post request for create new user to [http://localhost:8080/api/auth/registration](http://localhost:8080/api/auth/registration "http://localhost:8080/api/auth/registration")
-  whit body :
-```json
-{
-   "email":"alirezaalijani.ir@gmail.com",
-   "username":"alirezaalj",
-   "password":"123456780",
-   "verifyPassword":"123456780",
-   "mobile":"09199558735"
-}
-```
-and you get this response email send to alirezaalijani.ir@gmail.com
-```json
-{
-   "status": "CREATED",
-   "message": "registration is don now you can login to yot account"
-}
-```
-postman :
-[![postman](https://alirezaalijani.ir/assets/img/portfolio/Spring-boot-jwt-security-and-email-verification/1.png "postman")](https://alirezaalijani.ir/assets/img/portfolio/Spring-boot-jwt-security-and-email-verification/1.png "postman")
-email :
-[![email](https://alirezaalijani.ir/assets/img/portfolio/Spring-boot-jwt-security-and-email-verification/2.png "email")](https://alirezaalijani.ir/assets/img/portfolio/Spring-boot-jwt-security-and-email-verification/2.png "email")
+#### images
+Login page:
+
+------------
+[![https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png")
+
+------------
+
+Registering Page:
+
+------------
+
+[![https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/registering.png](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/registering.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/registering.png")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/registering.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/registering.png")
+
+------------
+
+Forget Password:
+
+------------
+
+[![https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/forget-password.png](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/forget-password.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/forget-password.png")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/forget-password.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/forget-password.png")
+
+------------
+
+Contact page:
+
+------------
+
+[![https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/contact.png](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/contact.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/contact.png")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/contact.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/contact.png")
+
+------------
+
+
+Email Verifivation Template:
+
+------------
+
+[![https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/email-verify.png](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/email-verify.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/email-verify.png")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/email-verify.png "https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/email-verify.png")
