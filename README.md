@@ -87,9 +87,9 @@ mvn clean install -DskipTests
 cd docker-compose
 docker-compose --env-file auth-app-env up
 ```
-##### application is ready on http://loaclhost:9000
+##### application is ready on http://localhost:9000/
 [![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
-##### login  http://loaclhost:9000/auth/login
+##### login  http://localhost:9000/auth/login
 [![login](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")
 
 ------------
@@ -133,7 +133,7 @@ mvn spring-boot:run
 ```shell
  mvn clean install
 ```
-5. end
+##### application is ready on http://localhost:9000/
 
 ------------
 #### images:
