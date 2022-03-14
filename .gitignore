@@ -3,8 +3,7 @@ target/
 !.mvn/wrapper/maven-wrapper.jar
 !**/src/main/**/target/
 !**/src/test/**/target/
-application-mail.yml
-
+auth-app-env.me
 ### STS ###
 .apt_generated
 .classpath
