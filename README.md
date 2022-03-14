@@ -48,13 +48,15 @@ cd Spring-Security-Authorization-Service
 ```
 3. Chanege **auth-app-env** file configs
    change email configs in here is use gmail
-   SPRING_MAIL_HOST=smtp.gmail.com
-   SPRING_MAIL_HOST_PORT=587
-   SPRING_MAIL_USERNAME=<your_gmail_account>
-   SPRING_MAIL_PASSWORD=<account_password>
+ ```
+            SPRING_MAIL_HOST=smtp.gmail.com
+            SPRING_MAIL_HOST_PORT=587
+            SPRING_MAIL_USERNAME=<your_gmail_account>
+            SPRING_MAIL_PASSWORD=<account_password>
+```
 ###### change other configs if you need
 > the **recaptcha keys** in config file are for the ** localhost**  if you are running on localhost there is no need to change them.
-
+```
         ## application name
 		APPLICATION_INFO_NAME=Alireza Alijani Auth Service
 		## application domian
@@ -75,7 +77,7 @@ cd Spring-Security-Authorization-Service
 		## google recaptch configs
         GOOGLE_RECAPTCHA_KEY_SITE=<your domain recaptcha site>
         GOOGLE_RECAPTCHA_KEY_SECRET=<your domain recaptcha key>
-
+```
 4. In application folder build **jar** file and **dokcer image**
 ```shell
 mvn clean install -DskipTests
