@@ -84,7 +84,8 @@ mvn clean install -DskipTests
 ```
 5. Run dokcer compose
 ```shell
- docker-compose --env-file auth-app-env up
+cd docker-compose
+docker-compose --env-file auth-app-env up
 ```
 ##### application is ready on http://loaclhost:9000
 [![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
