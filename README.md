@@ -1,13 +1,18 @@
 # Spring Security Authorization Service
 ### Description
-This program is designed using Java and Spring Boot, which can be used to register and authenticate users in an advanced way. This service can be used as an authentication server
+Oauth2 authorization Server.
+this program is designed using Java and Spring Boot,
+which can be used to register and authenticate **users** and **resource applications** in an advanced way.
+This service can be used as register server
+
 #### my website: [https://alirezaalijani.ir](https://alirezaalijani.ir "https://alirezaalijani.ir")
 ------------
 
 #### Details:
+- Oauth service
 - Authentication and Authorization **froms**
 - Use **fail attempts** to block access
-- Use **java email ** client to send emails
+- Use **java email** client to send emails
 - Different accesses for users
 - Creating a professional and **encrypted link** to verify user actions (**email verification**)
 - Create an **html email template** and send **asymmetric** emails
@@ -30,7 +35,7 @@ This program is designed using Java and Spring Boot, which can be used to regist
 - docker-compose : [Overview of Docker Compose](https://docs.docker.com/compose/ "Overview of Docker Compose")
 - maven  : [How to use or Download](https://maven.apache.org/ "How to use or Download")
 - java 17
-- gamil account or other smtp email account
+- gmail account or other smtp email account
   if using gmail first do fallow this two-step
   1- [Two-Step Verification should be turned off.](https://support.google.com/accounts/answer/1064203?hl=en "Two Step Verification should be turned off.")
   2- [Allow Less Secure App(should be turned on).](https://myaccount.google.com/lesssecureapps "Allow Less Secure App(should be turned on).")
