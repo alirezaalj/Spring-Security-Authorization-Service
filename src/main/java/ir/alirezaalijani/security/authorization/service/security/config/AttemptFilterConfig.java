@@ -1,6 +1,6 @@
 package ir.alirezaalijani.security.authorization.service.security.config;
 
-import ir.alirezaalijani.security.authorization.service.security.service.auth.LoginAttemptService;
+import ir.alirezaalijani.security.authorization.service.security.service.LoginAttemptService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -24,6 +24,7 @@ public class AttemptFilterConfig extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
+        System.out.println(request.getRequestURI());
         String ip = getClientIP(request);
         if (!SecurityBeanConfigs.isPublicPath(request)){
             if (loginAttemptService.isBlocked(ip)) {

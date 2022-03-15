@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 public class ApplicationConfigData {
     @Value("${application.info.name:Auth Service}")
     public String application_name;
-    @Value("${application.info.host:authservice.com}")
+    @Value("${application.info.host:http://localhost:9000}")
     public String application_host;
     @Value("${application.info.contact-email:contact@alirezaalijani.ir.com}")
     public String application_contact_mail;
@@ -19,8 +19,6 @@ public class ApplicationConfigData {
     public String sec_login_theme;
     @Value("${application.security.login.validator.validate-url}")
     public String sec_login_email_validate_url;
-    @Value("${application.security.login.success.redirect-url}")
-    public String sec_login_redirect_url;
     @Value("${application.security.login.fall.max-attempt:7}")
     public long sec_login_fall_max_attempt;
     @Value("${application.security.login.fall.expire-after.duration:1}")

@@ -15,18 +15,17 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.io.IOException;
+import java.security.Principal;
 
 
 @Slf4j
 @Controller
+@RequestMapping
 public class HomeController {
 
     private static final String contactMessage= """
@@ -46,6 +45,13 @@ public class HomeController {
         this.captchaService = captchaService;
         this.mailService = mailService;
         this.configData = configData;
+    }
+
+
+    @GetMapping("api")
+    @ResponseBody
+    public String apiTest(Principal principal){
+        return "Hi you are user "+principal.getName();
     }
 
     @GetMapping(path = {"/home","/"})

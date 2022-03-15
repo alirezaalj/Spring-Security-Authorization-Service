@@ -4,7 +4,6 @@ import ir.alirezaalijani.security.authorization.service.mail.MailSendEvent;
 import ir.alirezaalijani.security.authorization.service.mail.model.PasswordChangeMail;
 import ir.alirezaalijani.security.authorization.service.repository.UserRepository;
 import ir.alirezaalijani.security.authorization.service.repository.model.User;
-import ir.alirezaalijani.security.authorization.service.security.config.AuthTokenFilterConfig;
 import ir.alirezaalijani.security.authorization.service.security.service.encryption.DataEncryptor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -12,10 +11,7 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 @Slf4j
@@ -56,24 +52,6 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new UsernameNotFoundException(String.format("User with id %s not fond", username)));
     }
 
-    @Override
-    public String getAuthCookieValue(HttpServletRequest request) {
-        for (Cookie c : request.getCookies()) {
-            if (c.getName().equals(AuthTokenFilterConfig.COOKIE_NAME)) {
-                return c.getValue();
-            }
-        }
-        return null;
-    }
-
-    @Override
-    public String getAuthHeaderValue(HttpServletRequest request) {
-        String headerAuth = request.getHeader("Authorization");
-        if (StringUtils.hasText(headerAuth) && headerAuth.startsWith(AuthTokenFilterConfig.TOKEN_BEARER)) {
-            return headerAuth.substring(7);
-        }
-        return null;
-    }
 
     @Override
     public Integer findIdByUsername(String name) {

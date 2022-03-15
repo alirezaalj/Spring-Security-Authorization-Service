@@ -1,4 +1,4 @@
-package ir.alirezaalijani.security.authorization.service.security.service.auth;
+package ir.alirezaalijani.security.authorization.service.security.service;
 
 
 import com.google.common.cache.CacheBuilder;

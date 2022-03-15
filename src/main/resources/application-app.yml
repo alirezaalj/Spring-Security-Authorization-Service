@@ -1,23 +1,17 @@
 application:
   info:
     name: 'Alireza Alijani Auth Service'
-    host: security.alirezaalijani.ir
+    host: http://localhost:9000
     contact-email: contact@alirezaalijani.ir
   security:
     encryption:
       token:
         secret-key: 'tokenKey'
         salt: '5c0744940b5c369b'
-      jwt:
-        type: simple # simple or data
-        secret-key: 'jwtKeyForEnc'
-        expiration-ms: 86400000 # one day
     login:
       theme: default
       validator:
         validate-url: http://localhost:9000/verification/{path}/{token}
-      success:
-        redirect-url: http://localhost:4200/validate/{token}
       fall:
         max-attempt: 5
         expire-after:

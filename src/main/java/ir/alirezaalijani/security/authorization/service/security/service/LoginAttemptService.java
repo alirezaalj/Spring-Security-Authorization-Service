@@ -1,4 +1,4 @@
-package ir.alirezaalijani.security.authorization.service.security.service.auth;
+package ir.alirezaalijani.security.authorization.service.security.service;
 
 public interface LoginAttemptService {
     void loginSucceeded(final String key);

@@ -27,7 +27,8 @@ public class CustomPageErrorController implements ErrorController {
                 case NOT_FOUND -> "error/error-404-default";
                 case INTERNAL_SERVER_ERROR -> "error/error-500-default";
                 case FORBIDDEN -> "error/error-403-default";
-                case UNAUTHORIZED -> "redirect:/auth/login?error=Username Or Password is Wrong";
+//                case UNAUTHORIZED -> "redirect:/auth/login?error=Username Or Password is Wrong";
+                case UNAUTHORIZED -> "redirect:/auth/login";
                 case TOO_MANY_REQUESTS -> "redirect:/auth/login?error=You are Limited Pleas try after 24 hour";
                 default -> "error/error-default";
             };

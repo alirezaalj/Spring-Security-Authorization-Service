@@ -10,8 +10,6 @@ public interface UserService {
     // get user or other info
     User findUserByUsername(String username);
     User findUserByUsernameOrEmail(String username);
-    String getAuthCookieValue(HttpServletRequest request);
-    String getAuthHeaderValue(HttpServletRequest request);
     Integer findIdByUsername(String name);
     User findUserByEmail(String email);
 

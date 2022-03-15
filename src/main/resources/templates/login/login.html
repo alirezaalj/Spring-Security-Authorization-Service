@@ -51,37 +51,29 @@
                     <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
                     <p class="text-center small">Enter your username & password to login</p>
                   </div>
-                  <div th:if="${!#strings.isEmpty(error)}" style="height: 44px" class="alert alert-danger alert-dismissible fade show" role="alert">
-                    <p  th:text="${error}">Message</p>
+                  <div th:if="${param.error}" style="height: 44px" class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <p th:if="${#strings.equals(param.error,'true')}">Invalid username or password.</p>
+                    <p th:if="${!#strings.equals(param.error,'true')}" th:text="${param.error}">Invalid username or password.</p>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                   </div>
-                  <form  th:action="@{/auth/login}" th:object="${login_user}" method="post"  class="row g-3">
+                  <form  th:action="@{/auth/login}" method="post"  class="row g-3">
 
                     <div class="col-12">
-                      <label for="username" class="form-label input-error" th:if="${#fields.hasErrors('username')}" th:errors="*{username}">Username </label>
                       <div class="input-group">
                         <span class="input-group-text">@</span>
-                        <input type="text" th:field="*{username}" name="username" class="form-control" id="username" placeholder="Username or Email" required>
+                        <input type="text" name="uname" class="form-control" id="username" placeholder="Username or Email" required>
                       </div>
                     </div>
                     <div class="col-12">
-                      <label for="password" class="form-label input-error" th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Password</label>
                       <div class="input-group">
                         <span class="input-group-text">🔑</span>
-                        <input type="password" th:field="*{password}" name="password" class="form-control" id="password" placeholder="Password" required>
+                        <input type="password" name="password" class="form-control" id="password" placeholder="Password" required>
                       </div>
-
                     </div>
                     <div class="col-12">
                       <div class="g-recaptcha col-sm-5" th:attr="data-sitekey=${@captchaService.getReCaptchaSite()}"
                            data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
                       <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
-                    </div>
-                    <div class="col-12">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox"  th:field="*{remember}" name="remember" value="true" id="rememberMe">
-                        <label class="form-check-label"  for="rememberMe">Remember me</label>
-                      </div>
                     </div>
                     <div class="col-12">
                       <button class="btn btn-primary w-100" type="submit">Login</button>
