@@ -15,7 +15,7 @@ spring:
   main:
     banner-mode: off
   profiles:
-    active: postgres,mail-me,app,ssl
+    active: postgres,mail,app,ssl
   thymeleaf:
     cache: false
 

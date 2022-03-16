@@ -20,6 +20,7 @@ application:
 
 google:
   recaptcha:
+    enable: false
     key:
       site: 6Lf6I_gbAAAAAGd4LniL4OFKq15fz1JjYYTyDb-D # your google key-site
       secret: 6Lf6I_gbAAAAABFPyh08YdWjYOqcNpbsExskU-bY # your google key-secret

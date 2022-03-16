@@ -19,19 +19,16 @@ public class RegisterController {
 
     private final UserRegisterService userRegisterService;
     private final UserService userService;
-    private final ICaptchaService captchaService;
 
     public RegisterController(UserRegisterService userRegisterService,
-                              UserService userService, ICaptchaService captchaService) {
+                              UserService userService) {
         this.userRegisterService = userRegisterService;
         this.userService = userService;
-        this.captchaService = captchaService;
     }
 
     @GetMapping("sign-up")
-    public String signUpPage(Model model, @RequestParam(name = "message", defaultValue = "") String message) {
+    public String signUpPage(Model model) {
         model.addAttribute("sign_up_request", new RegisterRequest());
-        model.addAttribute("message", message);
         return ViewNames.REGISTER;
     }
 
@@ -42,32 +39,29 @@ public class RegisterController {
                              HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) {
             return ViewNames.REGISTER;
-        }else if (!signUpRequest.getPassword().equals(signUpRequest.getRePassword())) {
+        } else if (!signUpRequest.getPassword().equals(signUpRequest.getRePassword())) {
             bindingResult.rejectValue("rePassword", "error.sign_up_request", "Passwords not match");
         }
-        final String response_v2 = request.getParameter("g-recaptcha-response");
-        if (response_v2 != null && captchaService.processResponse(response_v2)) {
-            if (userService.userExistByUsername(signUpRequest.getUsername())) {
-                bindingResult.rejectValue("username", "error.sign_up_request", "Username is used");
-            }
-            if (userService.userExistByEmail(signUpRequest.getEmail())) {
-                bindingResult.rejectValue("email", "error.sign_up_request", "Email is used");
-            }
-            if (bindingResult.hasErrors()) {
-                return ViewNames.REGISTER;
-            }
-            if (userRegisterService.openSignUp(signUpRequest)!=null){
-                return ViewNames.REGISTER_SUCCESS;
-            }
+
+        if (userService.userExistByUsername(signUpRequest.getUsername())) {
+            bindingResult.rejectValue("username", "error.sign_up_request", "Username is used");
         }
-        model.addAttribute("message", "Register is failed. Pleas try agne");
+        if (userService.userExistByEmail(signUpRequest.getEmail())) {
+            bindingResult.rejectValue("email", "error.sign_up_request", "Email is used");
+        }
+        if (bindingResult.hasErrors()) {
+            return ViewNames.REGISTER;
+        }
+        if (userRegisterService.openSignUp(signUpRequest) != null) {
+            return ViewNames.REGISTER_SUCCESS;
+        }
+        model.addAttribute("error", "Sorry something went wrong please try again");
         return ViewNames.REGISTER;
     }
 
     @GetMapping("resend/verification-email")
-    public String resendVerificationEmail(Model model,@RequestParam(name = "message", defaultValue = "") String message){
-        model.addAttribute("resend_email_token_request",new ResendEmailTokenRequest());
-        model.addAttribute("message", message);
+    public String resendVerificationEmail(Model model) {
+        model.addAttribute("resend_email_token_request", new ResendEmailTokenRequest());
         return ViewNames.RESEND_ACCOUNT_VALIDATE_EMAIL;
     }
 
@@ -77,26 +71,23 @@ public class RegisterController {
                                               BindingResult bindingResult,
                                               HttpServletRequest request, Model model) {
         if (bindingResult.hasErrors()) return ViewNames.RESEND_ACCOUNT_VALIDATE_EMAIL;
-        final String response_v2 = request.getParameter("g-recaptcha-response");
-        if (response_v2 != null && captchaService.processResponse(response_v2)) {
-            if (!userService.userExistByEmail(resendEmailTokenRequest.getEmail())){
-                bindingResult.rejectValue("email", "error.resend_email_token_request", "This Email Not Registered");
-            }
-            if (userRegisterService.userExistByEmailAndEmailVerified(resendEmailTokenRequest.getEmail(),true)){
-                bindingResult.rejectValue("email", "error.resend_email_token_request", "This Email Is Verified");
-            }
-            if (bindingResult.hasErrors()) return ViewNames.RESEND_ACCOUNT_VALIDATE_EMAIL;
-            if (userRegisterService.resendEmailVerificationEmail(resendEmailTokenRequest.getEmail())){
-                model.addAttribute("message","My message");
-                return ViewNames.REGISTER_SUCCESS;
-            }
-        }else {
-            model.addAttribute("message","Recaptcha Validation Required!");
+
+        if (!userService.userExistByEmail(resendEmailTokenRequest.getEmail())) {
+            bindingResult.rejectValue("email", "error.resend_email_token_request", "This Email Not Registered");
         }
+        if (userRegisterService.userExistByEmailAndEmailVerified(resendEmailTokenRequest.getEmail(), true)) {
+            bindingResult.rejectValue("email", "error.resend_email_token_request", "This Email Is Verified");
+        }
+        if (bindingResult.hasErrors()) return ViewNames.RESEND_ACCOUNT_VALIDATE_EMAIL;
+        if (userRegisterService.resendEmailVerificationEmail(resendEmailTokenRequest.getEmail())) {
+            model.addAttribute("message", "My message");
+            return ViewNames.REGISTER_SUCCESS;
+        }
+        model.addAttribute("error", "Sorry something went wrong please try again");
         return ViewNames.RESEND_ACCOUNT_VALIDATE_EMAIL;
     }
 
-    private static class ViewNames{
+    private static class ViewNames {
         private static final String REGISTER = "register/register";
         private static final String REGISTER_SUCCESS = "register/register-success";
         private static final String RESEND_ACCOUNT_VALIDATE_EMAIL = "register/resend-account-validate-email";

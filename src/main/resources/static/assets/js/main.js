@@ -319,8 +319,6 @@
 })();
 
 function DoSubmit(form){
-  console.log(form);
   form.password.value=hex_md5(form.password.value);
-  console.log(form);
   return true;
 }

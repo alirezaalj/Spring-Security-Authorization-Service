@@ -44,12 +44,12 @@ public class SecurityBeanConfigs {
 
     private static final String[] recaptchaPaths= new String[]{
             "/auth/login",
-//            "/register/sign-up",
-//            "/register/resend/verification-email",
-//            "/forget/password",
-//            "/forget/username",
-//            "forget/change/password",
-//            "/contact"
+            "/register/sign-up",
+            "/register/resend/verification-email",
+            "/forget/password",
+            "/forget/username",
+            "forget/change/password",
+            "/contact"
     };
 
     @Bean

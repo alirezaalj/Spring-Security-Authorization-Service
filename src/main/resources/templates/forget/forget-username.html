@@ -55,9 +55,15 @@
                                     <h5 class="card-title text-center pb-0 fs-4">Forget My Username</h5>
                                     <p class="text-center small">Enter the email address you registered with</p>
                                 </div>
-                                <div th:if="${!#strings.isEmpty(message)}" style="height: 44px"
+                                <div th:if="${param.error}" style="height: 44px"
                                      class="alert alert-danger alert-dismissible fade show" role="alert">
-                                    <p th:text="${message}">Message</p>
+                                    <p th:text="${param.error}">Message</p>
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert"
+                                            aria-label="Close"></button>
+                                </div>
+                                <div th:if="${error}" style="height: 44px"
+                                     class="alert alert-danger alert-dismissible fade show" role="alert">
+                                    <p th:text="${error}">Message</p>
                                     <button type="button" class="btn-close" data-bs-dismiss="alert"
                                             aria-label="Close"></button>
                                 </div>
@@ -74,7 +80,7 @@
                                                    id="email" placeholder="Email" required>
                                         </div>
                                     </div>
-                                    <div class="col-12">
+                                    <div class="col-12" th:if="${@environment.getProperty('google.recaptcha.enable')}">
                                         <div class="g-recaptcha col-sm-5"
                                              th:attr="data-sitekey=${@captchaService.getReCaptchaSite()}"
                                              data-callback="onReCaptchaSuccess"

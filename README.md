@@ -60,7 +60,10 @@ SPRING_MAIL_USERNAME=<your_gmail_account>
 SPRING_MAIL_PASSWORD=<account_password>
 ```
 ###### change other configs if you need
-> the **recaptcha keys** in config file are for the ** localhost**  if you are running on localhost there is no need to change them.
+> the **recaptcha keys** in
+> config file are for the **localhost**  if you are running
+> on localhost there is no need to change them. or 
+> config recaptcha enable to **false**
 ```
 ## application name
 APPLICATION_INFO_NAME=Alireza Alijani Auth Service
@@ -80,10 +83,11 @@ APPLICATION_SECURITY_LOGIN_VALIDATOR_VALIDATE_URL=http://localhost:9000/verifica
 ## some client application redirect after login with token 
 APPLICATION_SECURITY_LOGIN_SUCCESS_REDIRECT_URL=http://localhost:4200/validate/{token}
 ## google recaptch configs
+GOOGLE_RECAPTCHA_ENABLE=true
 GOOGLE_RECAPTCHA_KEY_SITE=<your domain recaptcha site>
 GOOGLE_RECAPTCHA_KEY_SECRET=<your domain recaptcha key>
 ```
-4. In application folder build **jar** file and **dokcer image**
+4. In application folder build **jar** file and **docker image**
 ```shell
 mvn clean install -DskipTests
 ```

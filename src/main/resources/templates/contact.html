@@ -84,8 +84,8 @@
 
         <div class="col-xl-6">
           <div class="card p-4">
-            <div th:if="${!#strings.isEmpty(error)}" style="height: 44px" class="alert alert-danger alert-dismissible fade show" role="alert">
-              <p  th:text="${error}">Error</p>
+            <div th:if="${param.error}" style="height: 44px" class="alert alert-danger alert-dismissible fade show" role="alert">
+              <p  th:text="${param.error}">Error</p>
               <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
             <div th:if="${!#strings.isEmpty(message)}" style="height: 44px" class="alert alert-info alert-dismissible fade show" role="alert">
@@ -114,7 +114,7 @@
                   <label for="message" class="form-label input-error" th:if="${#fields.hasErrors('message')}" th:errors="*{message}">message </label>
                   <textarea class="form-control" th:field="*{message}" name="message" id="message" rows="6" placeholder="Message" required></textarea>
                 </div>
-                <div class="col-12">
+                <div class="col-12" th:if="${@environment.getProperty('google.recaptcha.enable')}">
                   <div class="g-recaptcha col-sm-5" th:attr="data-sitekey=${@captchaService.getReCaptchaSite()}"
                        data-callback="onReCaptchaSuccess" data-expired-callback="onReCaptchaExpired"></div>
                   <span id="captchaError" class="alert alert-danger col-sm-4" style="display:none"></span>
