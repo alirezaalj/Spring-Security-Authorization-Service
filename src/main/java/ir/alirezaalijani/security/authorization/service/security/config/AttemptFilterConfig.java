@@ -24,7 +24,7 @@ public class AttemptFilterConfig extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain) throws ServletException, IOException {
-        System.out.println(request.getRequestURI());
+
         String ip = getClientIP(request);
         if (!SecurityBeanConfigs.isPublicPath(request)){
             if (loginAttemptService.isBlocked(ip)) {
