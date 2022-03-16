@@ -1,7 +1,7 @@
 application:
   info:
     name: 'Alireza Alijani Auth Service'
-    host: http://localhost:9000
+    host: https://localhost:8443
     contact-email: contact@alirezaalijani.ir
   security:
     encryption:
@@ -11,7 +11,7 @@ application:
     login:
       theme: default
       validator:
-        validate-url: http://localhost:9000/verification/{path}/{token}
+        validate-url: https://localhost:8443/verification/{path}/{token}
       fall:
         max-attempt: 5
         expire-after:

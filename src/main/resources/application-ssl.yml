@@ -1,0 +1,10 @@
+# https://www.thomasvitale.com/https-spring-boot-ssl-certificate/
+server:
+  ssl:
+    key-store: classpath:self-signed-certificate/springboot.p12
+    key-store-password: password
+    key-store-type: pkcs12
+    key-alias:  springboot
+    key-password: password
+    enabled: true
+  port: 8443

@@ -15,9 +15,10 @@ spring:
   main:
     banner-mode: off
   profiles:
-    active: postgres,mail-me,app
+    active: postgres,mail,app,ssl
   thymeleaf:
     cache: false
+
 
 # all properties can be encrypted by jasypt
 #  download jasypt 1.9.3 dist.zip from

@@ -6,7 +6,7 @@ target/
 auth-app-env.me
 application-mail-me.yml
 *.log
-
+*.gz
 ### STS ###
 .apt_generated
 .classpath
