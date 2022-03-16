@@ -18,6 +18,8 @@ spring:
     active: postgres,mail,app,ssl
   thymeleaf:
     cache: false
+  mvc:
+    log-resolved-exception: off
 
 
 # all properties can be encrypted by jasypt

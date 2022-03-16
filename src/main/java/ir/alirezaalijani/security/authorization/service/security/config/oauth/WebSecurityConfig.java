@@ -14,19 +14,22 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
 
 @EnableWebSecurity
 public class WebSecurityConfig {
 
-    protected static final String LOGIN_PGE="/auth/login";
-    protected static final String LOGIN_PROCESSING_Url ="/auth/login";
-    protected static final String  LOGIN_FAILURE_URL="/auth/login?error=true";
+    protected static final String LOGIN_PGE = "/auth/login";
+    protected static final String LOGIN_PROCESSING_Url = "/auth/login";
+    protected static final String LOGIN_FAILURE_URL = "/auth/login?error=true";
 
-
+    private final UserDetailsService userDetailsService;
     private final AttemptFilterConfig attemptFilterConfig;
     private final RecaptchaFilterConfig recaptchaFilterConfig;
 
@@ -38,6 +41,7 @@ public class WebSecurityConfig {
 
         this.attemptFilterConfig = attemptFilterConfig;
         this.recaptchaFilterConfig = recaptchaFilterConfig;
+        this.userDetailsService= userDetailsService;
         authenticationManagerBuilder.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
@@ -81,11 +85,16 @@ public class WebSecurityConfig {
                 .invalidateHttpSession(true)
                 .deleteCookies("JSESSIONID")
                 .logoutRequestMatcher(new AntPathRequestMatcher("/auth/logout", HttpMethod.GET.name()))
-                .logoutSuccessUrl(LOGIN_PGE);
+                .logoutSuccessUrl(LOGIN_PGE)
+                .and()
+                .rememberMe(remember -> remember.key("aslfdGGHsfk8LMKLLKldc65")
+                        .rememberMeParameter("remember-me")
+                        .userDetailsService(this.userDetailsService)
+                        .tokenValiditySeconds(86400));
 
         // custom filters config
         http.addFilterBefore(attemptFilterConfig, SecurityContextPersistenceFilter.class);
-        http.addFilterAfter(recaptchaFilterConfig,AttemptFilterConfig.class);
+        http.addFilterAfter(recaptchaFilterConfig, AttemptFilterConfig.class);
 
         return http.build();
     }
