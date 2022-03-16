@@ -90,7 +90,11 @@ mvn clean install -DskipTests
 5. Run dokcer compose
 ```shell
 cd docker-compose
+# without ssl
 docker-compose --env-file auth-app-env up
+
+# with ssl
+docker-compose --env-file auth-app-env-ssl up
 ```
 ##### application is ready on http://localhost:9000/
 [![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
