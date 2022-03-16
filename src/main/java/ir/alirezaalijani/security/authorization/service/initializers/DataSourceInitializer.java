@@ -11,7 +11,9 @@ import org.springframework.security.oauth2.core.oidc.OidcScopes;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
@@ -38,14 +40,18 @@ public class DataSourceInitializer implements AppStartupInitializer {
         insertRegisteredClient();
         insertRoles();
         insertUser( User.builder()
-                .id(0).username("admin").password(passwordEncoder.encode("Admin123!@#"))
+                .id(0).username("admin").password(passwordEncoder.encode(
+                        DigestUtils.md5DigestAsHex("Admin123!@#".getBytes(StandardCharsets.UTF_8))
+                ))
                 .email("admin@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
                 .serviceAccess(true)
                 .build(), "ROLE_ADMIN", "ROLE_USER");
         insertUser( User.builder()
-                .id(0).username("user").password(passwordEncoder.encode("User123!@#"))
+                .id(0).username("user").password(passwordEncoder.encode(
+                        DigestUtils.md5DigestAsHex("User123!@#".getBytes(StandardCharsets.UTF_8))
+                ))
                 .email("user@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)

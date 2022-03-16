@@ -19,7 +19,14 @@ import org.springframework.security.oauth2.server.authorization.client.Registere
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
 import org.springframework.security.oauth2.server.authorization.config.ProviderSettings;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.web.filter.OncePerRequestFilter;
 
+import javax.servlet.FilterChain;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.util.UUID;
 
 @Configuration(proxyBeanMethods = false)
@@ -32,15 +39,15 @@ public class OAuthServerConfig {
     @Order(Ordered.HIGHEST_PRECEDENCE)
     public SecurityFilterChain authServerSecurityFilterChain(HttpSecurity http) throws Exception {
         OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
-        return http.formLogin(form -> form
+        http.formLogin(form -> form
                 .loginPage(WebSecurityConfig.LOGIN_PGE)
                 .loginProcessingUrl(WebSecurityConfig.LOGIN_PROCESSING_Url)
                 .usernameParameter("uname")
                 .passwordParameter("password")
                 .defaultSuccessUrl("/home")
                 .failureUrl(WebSecurityConfig.LOGIN_FAILURE_URL)
-        ).build();
-
+        );
+        return http.build();
     }
 
     private static final String registeredClientTable= """

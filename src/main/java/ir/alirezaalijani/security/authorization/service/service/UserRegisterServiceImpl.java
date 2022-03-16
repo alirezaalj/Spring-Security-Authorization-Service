@@ -18,7 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 
+import java.nio.charset.StandardCharsets;
 import java.util.Collections;
 import java.util.Date;
 import java.util.UUID;
@@ -62,7 +64,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
         var user = User.builder()
                 .username(request.getUsername())
                 .email(request.getEmail())
-                .password(passwordEncoder.encode(request.getPassword()))
+                .password(passwordEncoder.encode(
+                        DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)))
+                )
                 .emailVerification(false)
                 .enable(true)
                 .serviceAccess(true)
@@ -210,7 +214,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 User user = userService.findUserByUsername(mailToken.getUsername());
                 if (user != null && user.getEnable()) {
                     log.info("Password token is valid {}",mailToken.getId());
-                    user.setPassword(passwordEncoder.encode(forgetRequest.getNewPassword()));
+                    user.setPassword(passwordEncoder.encode(
+                            DigestUtils.md5DigestAsHex(forgetRequest.getNewPassword().getBytes(StandardCharsets.UTF_8))
+                    ));
                     userRepository.save(user);
                     log.info("User {} password change",user.getUsername());
                     tokenRepository.updateTokenUsed(mailToken.getId());
