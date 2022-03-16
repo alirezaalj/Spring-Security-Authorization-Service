@@ -8,8 +8,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.oauth2.core.AuthorizationGrantType;
 import org.springframework.security.oauth2.core.ClientAuthenticationMethod;
 import org.springframework.security.oauth2.core.oidc.OidcScopes;
+import org.springframework.security.oauth2.server.authorization.authentication.OAuth2ClientAuthenticationProvider;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClient;
 import org.springframework.security.oauth2.server.authorization.client.RegisteredClientRepository;
+import org.springframework.security.oauth2.server.authorization.config.ClientSettings;
 import org.springframework.stereotype.Component;
 import org.springframework.util.DigestUtils;
 
@@ -83,17 +85,42 @@ public class DataSourceInitializer implements AppStartupInitializer {
     }
 
     private void insertRegisteredClient(){
-        RegisteredClient registeredClient = RegisteredClient.withId("1")
-                .clientId("articles-client")
+
+        var basicClient = RegisteredClient.withId("1")
+                .clientId("basic-client")
                 .clientSecret(passwordEncoder.encode("secret"))
                 .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
                 .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
                 .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-                .redirectUri("http://127.0.0.1:8080/login/oauth2/code/articles-client-oidc")
                 .redirectUri("http://127.0.0.1:8080/authorized")
                 .scope(OidcScopes.OPENID)
-                .scope("articles.read")
                 .build();
-        registeredClientRepository.save(registeredClient);
+        registeredClientRepository.save(basicClient);
+        var postClient = RegisteredClient.withId("2")
+                .clientId("post-client")
+                .clientSecret(passwordEncoder.encode("secret"))
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                .scope(OidcScopes.OPENID)
+                .build();
+        registeredClientRepository.save(postClient);
+
+        var pkceClient= RegisteredClient.withId("3")
+                .clientId("pkce-client")
+                .clientSecret(passwordEncoder.encode("secret"))
+                .clientSettings(ClientSettings.builder()
+                        .requireProofKey(true)
+                        .requireAuthorizationConsent(true)
+                        .build()
+                )
+                .clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_POST)
+                .authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
+                .authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
+                .redirectUri("http://127.0.0.1:8080/authorized")
+                .scope(OidcScopes.OPENID)
+                .build();
+        registeredClientRepository.save(pkceClient);
     }
 }

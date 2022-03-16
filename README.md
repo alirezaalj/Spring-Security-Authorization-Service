@@ -101,6 +101,12 @@ docker-compose --env-file auth-app-env up
 docker-compose --env-file auth-app-env-ssl up
 ```
 ##### application is ready on http://localhost:9000/
+>Use postman for Oauth client authorization: **pkce, authorization_code**
+> ### **postman public workspace** 
+>https://www.postman.com/warped-station-341723/workspace/spring-auth-server/overview
+> 
+> application by default add 3 Oauth clients 
+
 [![home](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/home.png "home")
 ##### login  http://localhost:9000/auth/login
 [![login](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")](https://raw.githubusercontent.com/alirezaalj/Spring-Security-Authorization-Service/master/imgs/login.png "login")
