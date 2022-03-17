@@ -67,8 +67,8 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 .password(passwordEncoder.encode(
                         DigestUtils.md5DigestAsHex(request.getPassword().getBytes(StandardCharsets.UTF_8)))
                 )
-                .emailVerification(false)
-                .enable(true)
+                .emailVerification(false) // after email verification
+                .enable(true) // default signup
                 .accountNonExpired(false)
                 .credentialsNonExpired(false)
                 .accountNonLocked(false)

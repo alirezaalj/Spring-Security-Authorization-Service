@@ -74,10 +74,6 @@ APPLICATION_INFO_CONTACT_EMAIL=contact@alirezaalijani.ir
 ## encrypting keys
 APPLICATION_SECURITY_ENCRYPTION_TOKEN_SECRET_KEY=tokenKey
 APPLICATION_SECURITY_ENCRYPTION_TOKEN_SALT=5c0744940b5c369b
-## jwt configs
-APPLICATION_SECURITY_ENCRYPTION_JWT_TYPE=simple
-APPLICATION_SECURITY_ENCRYPTION_JWT_EXPIRATION_MS=86400000
-APPLICATION_SECURITY_ENCRYPTION_JWT_SECRET_KEY=jwtKeyForEnc
 ## token validation url - only domain can be changed
 APPLICATION_SECURITY_LOGIN_VALIDATOR_VALIDATE_URL=http://localhost:9000/verification/{path}/{token}
 ## some client application redirect after login with token 
@@ -91,7 +87,7 @@ GOOGLE_RECAPTCHA_KEY_SECRET=<your domain recaptcha key>
 ```shell
 mvn clean install -DskipTests
 ```
-5. Run dokcer compose
+5. Run docker compose
 ```shell
 cd docker-compose
 # without ssl
@@ -118,7 +114,7 @@ docker-compose --env-file auth-app-env-ssl up
 
 - maven  : [How to use or Download](https://maven.apache.org/ "How to use or Download")
 - java 17
-- gamil account or other smtp email account
+- gmail account or other smtp email account
   if using gmail first do fallow this two step
   1- [Two Step Verification should be turned off.](https://support.google.com/accounts/answer/1064203?hl=en "Two Step Verification should be turned off.")
   2- [Allow Less Secure App(should be turned on).](https://myaccount.google.com/lesssecureapps "Allow Less Secure App(should be turned on).")
@@ -127,7 +123,7 @@ docker-compose --env-file auth-app-env-ssl up
   -- create new database whit name : **oauth_server_db**
   -- using this commands for *pull *and use **postgres** whit docker
 
-- run and pull postgrsql whit docker and config password to **postgres**  on port **5432**
+- run and pull PostgreSQL whit docker and config password to **postgres**  on port **5432**
 ```shell
 docker run --name postgresql-container -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
 ```
@@ -147,7 +143,7 @@ spring:
 ```shell
 mvn spring-boot:run
 ```
-3. project start on port 9000 and you can see the console - logging
+3. project start on port 9000, and you can see the console - logging
 4. command to create jar file
 ```shell
  mvn clean install

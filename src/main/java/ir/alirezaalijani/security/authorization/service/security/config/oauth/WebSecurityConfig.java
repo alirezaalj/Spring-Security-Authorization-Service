@@ -14,13 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
-import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletResponse;
-import java.nio.charset.StandardCharsets;
 
 @EnableWebSecurity
 public class WebSecurityConfig {
@@ -67,7 +64,7 @@ public class WebSecurityConfig {
                 .authorizeRequests(authorizeRequests -> authorizeRequests
                         .antMatchers(SecurityBeanConfigs.publicPaths).permitAll()
                         .antMatchers(SecurityBeanConfigs.registerPaths).permitAll()
-                        .antMatchers("/api/**").hasRole("USER")
+                        .antMatchers("/api/**").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
                 // login config

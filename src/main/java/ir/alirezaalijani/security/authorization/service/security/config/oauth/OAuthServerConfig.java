@@ -18,7 +18,7 @@ import org.springframework.security.web.SecurityFilterChain;
 
 @Configuration(proxyBeanMethods = false)
 public class OAuthServerConfig {
-
+    
     @Value("${application.info.host:http://localhost:9000}")
     private String application_host;
 
