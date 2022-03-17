@@ -18,7 +18,6 @@ import org.springframework.util.DigestUtils;
 import java.nio.charset.StandardCharsets;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Component
 public class DataSourceInitializer implements AppStartupInitializer {
@@ -43,20 +42,26 @@ public class DataSourceInitializer implements AppStartupInitializer {
         insertRoles();
         insertUser( User.builder()
                 .id(0).username("admin").password(passwordEncoder.encode(
-                        DigestUtils.md5DigestAsHex("Admin123!@#".getBytes(StandardCharsets.UTF_8))
+                        DigestUtils.md5DigestAsHex("admin".getBytes(StandardCharsets.UTF_8))
                 ))
                 .email("admin@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
+                .accountNonExpired(false)
+                .credentialsNonExpired(false)
+                .accountNonLocked(false)
                 .serviceAccess(true)
                 .build(), "ROLE_ADMIN", "ROLE_USER");
         insertUser( User.builder()
                 .id(0).username("user").password(passwordEncoder.encode(
-                        DigestUtils.md5DigestAsHex("User123!@#".getBytes(StandardCharsets.UTF_8))
+                        DigestUtils.md5DigestAsHex("user".getBytes(StandardCharsets.UTF_8))
                 ))
                 .email("user@alirezaalijani.ir")
                 .emailVerification(true)
                 .enable(true)
+                .accountNonExpired(false)
+                .credentialsNonExpired(false)
+                .accountNonLocked(false)
                 .serviceAccess(true)
                 .build(), "ROLE_USER");
     }

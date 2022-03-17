@@ -26,3 +26,4 @@ spring:
     init:
       platform: postgres
       mode: always
+      schema-locations: classpath:data/create_table.sql

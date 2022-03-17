@@ -69,6 +69,9 @@ public class UserRegisterServiceImpl implements UserRegisterService {
                 )
                 .emailVerification(false)
                 .enable(true)
+                .accountNonExpired(false)
+                .credentialsNonExpired(false)
+                .accountNonLocked(false)
                 .serviceAccess(true)
                 .roles(roles).build();
         var newUser = userRepository.save(user);

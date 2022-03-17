@@ -1,6 +1,7 @@
 package ir.alirezaalijani.security.authorization.service.security.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import ir.alirezaalijani.security.authorization.service.repository.model.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

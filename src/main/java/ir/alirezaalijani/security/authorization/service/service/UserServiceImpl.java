@@ -20,16 +20,13 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final DataEncryptor simpleJsonEncryptor;
     private final ApplicationEventPublisher applicationEventPublisher;
 
     public UserServiceImpl(UserRepository userRepository,
                            PasswordEncoder passwordEncoder,
-                           @Qualifier("springJsonEncryptor") DataEncryptor simpleJsonEncryptor,
                            ApplicationEventPublisher applicationEventPublisher) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.simpleJsonEncryptor = simpleJsonEncryptor;
         this.applicationEventPublisher = applicationEventPublisher;
     }
 

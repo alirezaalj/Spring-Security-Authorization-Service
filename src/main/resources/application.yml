@@ -13,7 +13,7 @@ logging:
 
 spring:
   main:
-    banner-mode: off
+    banner-mode: console
   profiles:
     active: postgres,mail,app,ssl
   thymeleaf:

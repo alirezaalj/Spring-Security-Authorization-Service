@@ -25,6 +25,12 @@ public class User {
     @Column(unique = true,nullable = false,length = 100,updatable = false)
     private String email;
     @Column(nullable = false)
+    private Boolean accountNonExpired;
+    @Column(nullable = false)
+    private Boolean accountNonLocked;
+    @Column(nullable = false)
+    private Boolean credentialsNonExpired;
+    @Column(nullable = false)
     private Boolean emailVerification;
     @Column(nullable = false)
     private Boolean enable;
