@@ -1,21 +1,11 @@
 server:
   port: 9000
 
-logging:
-  file:
-    path: ./AuthServiceApplication
-    name: AuthServiceApplication/logs/Auth-Service-Application.log
-  logback:
-    rollingpolicy:
-      max-file-size: 10MB
-      max-history: 7
-      clean-history-on-start: true
-
 spring:
   main:
     banner-mode: console
   profiles:
-    active: postgres,mail,app,ssl
+    active: postgres,mail,app,ssl,redis
   thymeleaf:
     cache: false
   mvc:
@@ -29,3 +19,22 @@ jasypt:
   encryptor:
     password: myPassword
     pool-size: 1
+
+---
+spring.config.activate.on-profile: logfile
+logging:
+  file:
+    path: ./AuthServiceApplication
+    name: AuthServiceApplication/logs/Auth-Service-Application.log
+  logback:
+    rollingpolicy:
+      max-file-size: 10MB
+      max-history: 7
+
+---
+spring.config.activate.on-profile: redis
+spring:
+  redis:
+    host: localhost
+    port: 6379
+    database: 0

@@ -6,6 +6,8 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import ir.alirezaalijani.security.authorization.service.config.ApplicationConfigData;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
+import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.time.temporal.ChronoUnit;
@@ -13,7 +15,9 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
 @Slf4j
+@Primary
 @Component
+@ConditionalOnProperty(prefix = "application.security.login.fall",name = "service",havingValue = "memory")
 public class LoginAttemptServiceImpl  implements LoginAttemptService{
 
     private final LoadingCache<String, Integer> attemptsCache;

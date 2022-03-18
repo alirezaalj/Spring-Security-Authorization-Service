@@ -4,8 +4,12 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
+import ir.alirezaalijani.security.authorization.service.security.service.LoginAttempt;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.core.RedisOperations;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.configuration.OAuth2AuthorizationServerConfiguration;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -61,6 +65,13 @@ public class SecurityBeanConfigs {
         return new BCryptPasswordEncoder();
     }
 
+    @Bean
+    public static RedisOperations<String, LoginAttempt> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        var redisTemplate = new RedisTemplate<String ,LoginAttempt>();
+        redisTemplate.setConnectionFactory(redisConnectionFactory);
+        redisTemplate.afterPropertiesSet();
+        return redisTemplate;
+    }
     protected static PathMatcher pathMatcher() {
         return new AntPathMatcher();
     }

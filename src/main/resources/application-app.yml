@@ -13,6 +13,7 @@ application:
       validator:
         validate-url: https://localhost:8443/verification/{path}/{token}
       fall:
+        service: redis # redis or memory
         max-attempt: 5
         expire-after:
           duration: 1
