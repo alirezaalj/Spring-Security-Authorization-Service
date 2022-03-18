@@ -13,7 +13,6 @@ import org.springframework.security.oauth2.jwt.JwtDecoder;
 import org.springframework.security.oauth2.server.authorization.config.TokenSettings;
 
 import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.interfaces.RSAPrivateKey;
 import java.security.interfaces.RSAPublicKey;
 import java.time.Duration;
@@ -50,13 +49,7 @@ public class OauthKeyConfig {
     private KeyPair generateRsaKey() {
         KeyPair keyPair = RSAKeyUtil.loadKeyFromDir(keysDir);
         if (keyPair==null){
-            try {
-                KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
-                keyPairGenerator.initialize(2048);
-                keyPair = keyPairGenerator.generateKeyPair();
-            } catch (Exception ex) {
-                throw new IllegalStateException(ex);
-            }
+            keyPair= RSAKeyUtil.generateNewRsaKey();
         }
         return keyPair;
     }

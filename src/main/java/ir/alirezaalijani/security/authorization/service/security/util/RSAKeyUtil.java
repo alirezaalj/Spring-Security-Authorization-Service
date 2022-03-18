@@ -5,13 +5,14 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.security.*;
+import java.security.spec.EncodedKeySpec;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.PKCS8EncodedKeySpec;
 import java.security.spec.X509EncodedKeySpec;
 
 public class RSAKeyUtil {
 
-    private static KeyPair generateNewRsaKey() {
+    public static KeyPair generateNewRsaKey() {
         KeyPair keyPair;
         try {
             KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance("RSA");
@@ -29,7 +30,7 @@ public class RSAKeyUtil {
         // Store Public Key.
         try {
             Path publicKeyPath= Paths.get(path, "public.key");
-            X509EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(
+            EncodedKeySpec x509EncodedKeySpec = new X509EncodedKeySpec(
                     publicKey.getEncoded());
             Files.write(publicKeyPath,x509EncodedKeySpec.getEncoded());
         }catch (IOException e){
@@ -39,7 +40,7 @@ public class RSAKeyUtil {
         // Store Private Key.
         try {
             Path privateKeyPath=Paths.get(path,"private.key");
-            PKCS8EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(
+            EncodedKeySpec pkcs8EncodedKeySpec = new PKCS8EncodedKeySpec(
                     privateKey.getEncoded());
             Files.write(privateKeyPath,pkcs8EncodedKeySpec.getEncoded());
         }catch (IOException e){
@@ -56,7 +57,7 @@ public class RSAKeyUtil {
         Path publicKeyPath= Path.of(path,"public.key");
         try {
             byte[] encodedPublicKey = Files.readAllBytes(publicKeyPath);
-            X509EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(
+            EncodedKeySpec publicKeySpec = new X509EncodedKeySpec(
                     encodedPublicKey);
             publicKey = KeyFactory.getInstance("RSA").generatePublic(publicKeySpec);
         }catch (IOException | InvalidKeySpecException | NoSuchAlgorithmException e){
@@ -67,7 +68,7 @@ public class RSAKeyUtil {
         Path privateKeyPath=Path.of(path,"private.key");
         try{
             byte[] encodedPrivateKey = Files.readAllBytes(privateKeyPath);
-            PKCS8EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(
+            EncodedKeySpec privateKeySpec = new PKCS8EncodedKeySpec(
                     encodedPrivateKey);
             privateKey = KeyFactory.getInstance("RSA").generatePrivate(privateKeySpec);
         }catch (IOException | InvalidKeySpecException | NoSuchAlgorithmException e){
