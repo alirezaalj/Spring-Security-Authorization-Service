@@ -6,6 +6,8 @@ services:
     ports:
       - 9000:${SERVER_PORT}
     depends_on:
+      redis:
+        condition: service_started
       postgres:
         condition: service_healthy
     volumes:
@@ -20,6 +22,9 @@ services:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASS: ${POSTGRES_PASS}
       POSTGRES_PORT: ${POSTGRES_PORT}
+      # redis
+      SPRING_REDIS_HOST: 172.17.0.1
+      SPRING_REDIS_POST: 6379
       # mail config
       SPRING_MAIL_HOST: ${SPRING_MAIL_HOST}
       SPRING_MAIL_PORT: ${SPRING_MAIL_HOST_PORT}

@@ -23,5 +23,5 @@ services:
     networks:
       - ${GLOBAL_NETWORK:-postgres}
 volumes:
-  db:
+  postgres:
     driver: local

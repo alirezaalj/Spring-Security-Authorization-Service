@@ -32,7 +32,6 @@ public class RedisLoginAttemptServiceImpl implements LoginAttemptService{
         }catch (Exception e){
             log.error("LoginAttemptService error : {}",e.getMessage());
         }
-
     }
 
     @Override
@@ -55,13 +54,10 @@ public class RedisLoginAttemptServiceImpl implements LoginAttemptService{
     @Override
     public boolean isBlocked(String key) {
         if (hashOperations.hasKey(LOGIN_ATTEMPT_HASH_KEY,key)){
-            System.out.print("has key:"+key);
             var attempt=hashOperations.get(LOGIN_ATTEMPT_HASH_KEY,key);
-            System.out.println(" "+attempt);
             if (attempt!=null){
                 if (attempt.isExpired()){
                     hashOperations.delete(LOGIN_ATTEMPT_HASH_KEY,key);
-                    System.out.println("attempt is expire:"+key);
                     return false;
                 }
                 return attempt.getAttempts() >= this.configData.sec_login_fall_max_attempt;

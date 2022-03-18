@@ -1,11 +1,13 @@
 server:
   port: 9000
 
+#logging.level.org.springframework.jdbc.core: DEBUG
+
 spring:
   main:
     banner-mode: console
   profiles:
-    active: postgres,mail,app,ssl,redis
+    active: postgres,mail,app,redis
   thymeleaf:
     cache: false
   mvc:

@@ -1,9 +1,10 @@
 application:
   info:
     name: 'Alireza Alijani Auth Service'
-    host: https://localhost:8443
+    host: http://localhost:9000
     contact-email: contact@alirezaalijani.ir
   security:
+    key-dir: keys
     encryption:
       token:
         secret-key: 'tokenKey'

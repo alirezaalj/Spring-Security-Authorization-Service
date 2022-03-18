@@ -16,7 +16,7 @@ SERVER_SSL_KEY_STORE_PASSWORD=password
 SERVER_SSL_ENABLED=true
 SERVER_PORT=8443
 
-APPLICATION_PROFILES=postgres,mail,app,ssl,logfile
+APPLICATION_PROFILES=postgres,mail,app,ssl,logfile,redis
 APPLICATION_INFO_NAME=Alireza Alijani Auth Service
 APPLICATION_INFO_HOST=https://localhost:9000
 APPLICATION_INFO_CONTACT_EMAIL=contact@alirezaalijani.ir
@@ -34,6 +34,6 @@ SERVICE_VERSION=0.0.1-SNAPSHOT
 ENCRYPTOR_PASSWORD=myPassword
 
 COMPOSE_PATH_SEPARATOR=:
-COMPOSE_FILE=common.yml:postgres.yml:services.yml
+COMPOSE_FILE=common.yml:postgres.yml:redis.yml:services.yml
 
 GLOBAL_NETWORK=application
